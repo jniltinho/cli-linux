@@ -1,0 +1,8 @@
+[package]
+name = "cli-linux"
+version = "0.1.0"
+authors = ["Nilton Oliveira <jniltinho@gmail.com>"]
+edition = "2020"
+
+[dependencies]
+clap = "2.33.0"
