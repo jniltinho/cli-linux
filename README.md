@@ -32,3 +32,10 @@ upx target/release/cli-linux
 ls -sh target/release/cli-linux
 target/release/cli-linux --help
 ```
+
+## Links
+
+* https://tech.fpcomplete.com/rust/command-line-parsing-clap
+* https://www.rust-lang.org/tools/install
+* https://crates.io/crates/cmd_lib
+* https://github.com/rust-shell-script/rust_cmd_lib
