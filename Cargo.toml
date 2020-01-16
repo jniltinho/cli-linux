@@ -2,7 +2,10 @@
 name = "cli-linux"
 version = "0.1.0"
 authors = ["Nilton Oliveira <jniltinho@gmail.com>"]
-edition = "2020"
+edition = "2018"
 
 [dependencies]
 clap = "2.33.0"
+
+[profile.release]
+opt-level = 3
