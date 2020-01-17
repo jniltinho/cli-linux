@@ -7,8 +7,8 @@ all: build upx
 
 build:
 	cargo build --release
-	#cargo fmt --all -- --check
 	cargo fmt --all
+	cargo fmt --all -- --check
 	ls -sh target/release/cli-linux
 
 
