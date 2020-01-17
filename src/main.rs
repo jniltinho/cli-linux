@@ -1,31 +1,36 @@
 extern crate clap;
 
-use clap::{Arg, App};
+use clap::{App, Arg};
+
+mod utils;
 
 fn main() {
-    // basic app information
-    let app = App::new("cli-linux")
+    let matches = App::new("cli-linux")
         .version("1.0")
-        .about("Says hello")
-        .author("Nilton Oliveira");
+        .author("Nilton Oliveira <jniltinho@gmail.com>")
+        .about("Rust CLI Linux Tools")
+        .arg(
+            Arg::with_name("name")
+                .short("n")
+                .long("name")
+                .help("Who to say hello to")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("distro")
+                .short("d")
+                .long("distro")
+                .help("Get Linux Distro Info"),
+        )
+        .get_matches();
 
-    // Define the name command line option
-    let name_option = Arg::with_name("name")
-        .short("n")
-        .long("name") // allow --name
-        .takes_value(true)
-        .help("Who to say hello to")
-        .required(true);
+    // You can check the value provided by positional arguments, or option arguments
+    if matches.is_present("distro") {
+        let dist = utils::get_distro();
+        println!("Distro: {}", dist);
+    }
 
-    // now add in the argument we want to parse
-    let app = app.arg(name_option);
-
-    // extract the matches
-    let matches = app.get_matches();
-
-    // Extract the actual name
-    let name = matches.value_of("name")
-        .expect("This can't be None, we said it was required");
-
-    println!("Hello, {}!", name);
+    if let Some(c) = matches.value_of("name") {
+        println!("Hello, {}!", c);
+    }
 }
