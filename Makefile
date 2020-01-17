@@ -19,11 +19,6 @@ build-musl:
 	upx target/x86_64-unknown-linux-musl/release/cli-linux
 	ls -sh target/x86_64-unknown-linux-musl/release/cli-linux
 
-deps:
-	go get -u github.com/gobuffalo/packr/packr
-	go get -u github.com/gobuffalo/packr
-
-
 upx:
 	ls -sh target/release/cli-linux
 	upx target/release/cli-linux
