@@ -6,7 +6,7 @@ mod utils;
 
 fn main() {
     let matches = App::new("cli-linux")
-        .version("1.0")
+        .version("0.0.1")
         .author("Nilton Oliveira <jniltinho@gmail.com>")
         .about("Rust CLI Linux Tools")
         .arg(
@@ -26,6 +26,7 @@ fn main() {
 
     // You can check the value provided by positional arguments, or option arguments
     if matches.is_present("distro") {
+        utils::get_sudo();
         let dist = utils::get_distro();
         println!("Distro: {}", dist);
     }

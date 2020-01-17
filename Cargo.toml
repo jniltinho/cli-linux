@@ -1,11 +1,13 @@
 [package]
 name = "cli-linux"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["Nilton Oliveira <jniltinho@gmail.com>"]
 edition = "2018"
 
 [dependencies]
 clap = "2.33.0"
+cmd_lib = "0.7.8"
+users = "0.9"
 
 [profile.release]
 opt-level = 3
