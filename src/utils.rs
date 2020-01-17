@@ -18,6 +18,15 @@ pub fn get_distro() -> String {
     return os_name;
 }
 
+pub fn get_sudo() {
+    let user = get_user_by_uid(get_current_uid()).unwrap();
+    if user.uid() != 0 {
+        println!("Hello, {}!", user.name().to_string_lossy());
+        println!("This program must be run as root! (sudo)");
+        process::exit(1);
+    }
+}
+
 fn get_cmd(cmd: String) {
     run_cmd!("{}", cmd);
 }
@@ -31,13 +40,4 @@ fn run_sh(cmd: String) -> String {
 
     let run = String::from_utf8(output.stdout).unwrap();
     return run.trim().to_string();
-}
-
-pub fn get_sudo() {
-    let user = get_user_by_uid(get_current_uid()).unwrap();
-    if user.uid() != 0 {
-        println!("Hello, {}!", user.name().to_string_lossy());
-        println!("This program must be run as root! (sudo)");
-        process::exit(1);
-    }
 }
