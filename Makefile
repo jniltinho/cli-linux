@@ -11,6 +11,13 @@ build:
 	cargo fmt --all -- --check
 	ls -sh target/release/cli-linux
 
+build-musl:
+	rustup target add x86_64-unknown-linux-musl
+	cargo fmt --all
+	cargo fmt --all -- --check
+	cargo build --release --target x86_64-unknown-linux-musl
+	upx target/x86_64-unknown-linux-musl/release/cli-linux
+	ls -sh target/x86_64-unknown-linux-musl/release/cli-linux
 
 deps:
 	go get -u github.com/gobuffalo/packr/packr
