@@ -33,9 +33,21 @@ ls -sh target/release/cli-linux
 target/release/cli-linux --help
 ```
 
+## Rust Lang Cross Compilation
+
+```bash
+## Install Docker Ubuntu/Debian
+apt-get update
+apt-get install -y apt-transport-https ca-certificates curl software-properties-common docker.io socat
+
+cargo install cross
+cross build --release --target x86_64-pc-windows-gnu
+```
+
 ## Links
 
 * https://tech.fpcomplete.com/rust/command-line-parsing-clap
 * https://www.rust-lang.org/tools/install
 * https://crates.io/crates/cmd_lib
 * https://github.com/rust-shell-script/rust_cmd_lib
+* https://github.com/rust-embedded/cross
