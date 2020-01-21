@@ -1,7 +1,7 @@
 extern crate clap;
-
 use clap::{App, Arg};
 
+mod net;
 mod utils;
 
 fn main() {
@@ -22,6 +22,12 @@ fn main() {
                 .long("distro")
                 .help("Get Linux Distro Info"),
         )
+        .arg(
+            Arg::with_name("get-ip")
+                .short("i")
+                .long("get-ip")
+                .help("Get IPs Linux"),
+        )
         .get_matches();
 
     // You can check the value provided by positional arguments, or option arguments
@@ -31,7 +37,11 @@ fn main() {
         println!("Distro: {}", dist);
     }
 
+    if matches.is_present("get-ip") {
+        net::get_interfaces();
+    }
+
     if let Some(c) = matches.value_of("name") {
-        println!("Hello, {}!", c);
+        println!("Hello, {}!, {}", c, utils::get_date());
     }
 }
