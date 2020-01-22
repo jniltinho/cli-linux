@@ -3,6 +3,8 @@ use clap::{App, Arg};
 
 mod net;
 mod utils;
+#[path = "hyper_dl.rs"]
+mod wget;
 
 fn main() {
     let matches = App::new("cli-linux")
@@ -25,8 +27,15 @@ fn main() {
         .arg(
             Arg::with_name("net")
                 .long("get-ip")
-                .help("Get IP and Interfaces on Linux")
-                .default_value("all"),
+                .help("Get IP, --get-ip all or --get-ip lo")
+                .takes_value(true),
+            //.default_value("all"),
+        )
+        .arg(
+            Arg::with_name("dl-url")
+                .long("dl-url")
+                .help("Download url http")
+                .takes_value(true),
         )
         .get_matches();
 
@@ -44,6 +53,11 @@ fn main() {
         } else {
             net::get_ip_net(net);
         }
+    }
+
+    if let Some(c) = matches.value_of("dl-url") {
+        println!("Download URL: {} ...", c);
+        wget::run_download(c.to_string());
     }
 
     if let Some(c) = matches.value_of("name") {
