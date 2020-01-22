@@ -1,10 +1,10 @@
 extern crate clap;
 use clap::{App, Arg};
 
+mod hyper_dl;
 mod net;
 mod utils;
-#[path = "hyper_dl.rs"]
-mod wget;
+use hyper_dl as wget;
 
 fn main() {
     let matches = App::new("cli-linux")
