@@ -23,10 +23,11 @@ fn main() {
                 .help("Get Linux Distro Info"),
         )
         .arg(
-            Arg::with_name("get-ip")
-                .short("i")
+            Arg::with_name("net")
                 .long("get-ip")
-                .help("Get IPs Linux"),
+                .help("Get IP and Interfaces on Linux")
+                .default_value("all")
+                .takes_value(true),
         )
         .get_matches();
 
@@ -37,8 +38,13 @@ fn main() {
         println!("Distro: {}", dist);
     }
 
-    if matches.is_present("get-ip") {
-        net::get_interfaces();
+    if matches.is_present("net") {
+        let net = matches.value_of("net").unwrap();
+        if net == "all" {
+            net::get_interfaces();
+        } else {
+            net::get_ip_net(net);
+        }
     }
 
     if let Some(c) = matches.value_of("name") {
