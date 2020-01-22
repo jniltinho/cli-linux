@@ -26,8 +26,7 @@ fn main() {
             Arg::with_name("net")
                 .long("get-ip")
                 .help("Get IP and Interfaces on Linux")
-                .default_value("all")
-                .takes_value(true),
+                .default_value("all"),
         )
         .get_matches();
 
@@ -38,7 +37,7 @@ fn main() {
         println!("Distro: {}", dist);
     }
 
-    if matches.is_present("net") {
+    if matches.occurrences_of("net") != 0 {
         let net = matches.value_of("net").unwrap();
         if net == "all" {
             net::get_interfaces();

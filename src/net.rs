@@ -1,3 +1,4 @@
+/// Print interfaces and ipv4 to stdout
 extern crate pnet;
 use pnet::datalink;
 
