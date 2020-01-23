@@ -1,7 +1,6 @@
 //!https://paulohrpinheiro.xyz/texts/rust/2016-11-21-download-arquivos.html
 
-extern crate hyper; // biblioteca (crate) não padrão
-
+use hyper;
 use std::fs::File; // para criar arquivos
 use std::io::{Read, Write}; // para IO de arquivos
 use std::path::Path; // configurar nome de arquivo
@@ -9,6 +8,21 @@ use std::thread; // concorrência
 
 const ROBOT_NAME: &'static str = "nilton-curl";
 const BUFFER_SIZE: usize = 512;
+
+pub fn run_download(url: String) {
+    // vetor para as threads que serão criadas
+    let mut workers = vec![];
+
+    workers.push(thread::spawn(move || match download_content(&url) {
+        Err(error) => println!("{:?}", error),
+        Ok(ok) => println!("{}", ok),
+    }));
+
+    // espera cada thread acabar
+    for worker in workers {
+        let _ = worker.join();
+    }
+}
 
 fn download_content(url: &str) -> Result<String, String> {
     // Somos um respeitável e conhecido bot
@@ -61,19 +75,4 @@ fn download_content(url: &str) -> Result<String, String> {
         "Download of '{}' has been completed.",
         String::from(filename.to_str().unwrap())
     ));
-}
-
-pub fn run_download(url: String) {
-    // vetor para as threads que serão criadas
-    let mut workers = vec![];
-
-    workers.push(thread::spawn(move || match download_content(&url) {
-        Err(error) => println!("{:?}", error),
-        Ok(ok) => println!("{}", ok),
-    }));
-
-    // espera cada thread acabar
-    for worker in workers {
-        let _ = worker.join();
-    }
 }

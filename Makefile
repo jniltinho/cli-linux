@@ -12,6 +12,7 @@ build:
 	ls -sh target/release/cli-linux
 
 build-musl:
+	apt-get install -y musl-tools
 	rustup target add x86_64-unknown-linux-musl
 	cargo fmt --all
 	cargo fmt --all -- --check
