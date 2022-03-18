@@ -1,0 +1,22 @@
+name: "Teste Nilton CI"
+
+on:
+  push:
+    branches:
+      - master
+env:
+  commit_message: ${{ github.event.head_commit.message }}
+
+
+jobs:
+  deploy-psti-homol:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Set Slack Name in Env
+      run: echo "slack_name=Deploy-PSTI-HOMOL" >> $GITHUB_ENV
+    - name: Get Message
+      run: echo "$commit_message ... oiii"
+
+
