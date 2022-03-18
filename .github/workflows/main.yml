@@ -17,6 +17,6 @@ jobs:
     - name: Set Slack Name in Env
       run: echo "slack_name=Deploy-PSTI-HOMOL" >> $GITHUB_ENV
     - name: Get Message
-      run: echo "$commit_message ... oiii"
+      run: echo "$commit_message|grep deploy:|cut -d':' -f1"
 
 
