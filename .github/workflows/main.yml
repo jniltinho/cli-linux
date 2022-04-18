@@ -5,7 +5,12 @@ on:
     branches:
       - master
 env:
+  GHP_TOKEN: ${{ secrets.GHP_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   commit_message: ${{ github.event.head_commit.message }}
+  AUTHOR: '${{github.event.pusher.name}}\<${{ github.event.pusher.email}}\>'
+  AUTHOR_URL: 'https://github.com/${{github.event.pusher.name}}'
+
 
 
 jobs:
@@ -13,7 +18,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set Vars
+        run: |
+           echo "MESSAGE=$(echo '${{github.event.head_commit.message}}'|head -n 1)" >> $GITHUB_ENV
+           echo "repo_name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+           echo "current_date=$(TZ=':America/Sao_Paulo' date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
+           echo "app_version=${GITHUB_REF_NAME}-$(TZ=':America/Sao_Paulo' date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
       - run: cargo build --release --all-features
+
+      - name: Create release tar
+        run: tar -zcf ${repo_name}.tar.gz target/release/cli-linux
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+           tag_name: ${{ env.app_version }}
+           release_name: Release ${{ env.app_version }}
+           body: |
+               Changes in this Release
+               - Release from: ${{ env.GITHUB_REF_NAME }}
+               - Data do Release: ${{ env.current_date }}
+               - Github Author: ${{ env.AUTHOR_URL }}
+               - Commit: ${{ github.sha }}
+               - Commit Message: ${{ env.MESSAGE}}
+           draft: false
+           prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.repo_name }}.tar.gz
+          asset_name: ${{ env.repo_name }}.tar.gz
+          asset_content_type: application/gzip
+
