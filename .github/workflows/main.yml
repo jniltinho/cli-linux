@@ -24,6 +24,7 @@ jobs:
            echo "repo_name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
            echo "current_date=$(TZ=':America/Sao_Paulo' date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
            echo "app_version=${GITHUB_REPOSITORY#*/}-$(TZ=':America/Sao_Paulo' date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+           echo "release_from=${GITHUB_REF_NAME}" >> $GITHUB_ENV
 
       - uses: actions-rs/toolchain@v1
         with:
@@ -44,7 +45,7 @@ jobs:
            release_name: Release ${{ env.app_version }}
            body: |
                Changes in this Release
-               - Release from: ${{ env.GITHUB_REF_NAME }}
+               - Release from: ${{ env.release_from }}
                - Data do Release: ${{ env.current_date }}
                - Github Author: ${{ env.AUTHOR_URL }}
                - Commit: ${{ github.sha }}
