@@ -23,15 +23,18 @@ jobs:
            echo "MESSAGE=$(echo '${{github.event.head_commit.message}}'|head -n 1)" >> $GITHUB_ENV
            echo "repo_name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
            echo "current_date=$(TZ=':America/Sao_Paulo' date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
-           echo "app_version=${GITHUB_REF_NAME}-$(TZ=':America/Sao_Paulo' date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+           echo "app_version=${GITHUB_REPOSITORY#*/}-$(TZ=':America/Sao_Paulo' date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
 
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - run: cargo build --release --all-features
+      - run: cargo build --release
 
       - name: Create release tar
-        run: tar -zcf ${repo_name}.tar.gz target/release/cli-linux
+        run: |
+           make install-upx
+           make upx
+           tar -zcf ${repo_name}.tar.gz target/release/cli-linux
 
       - name: Create Release
         id: create_release
