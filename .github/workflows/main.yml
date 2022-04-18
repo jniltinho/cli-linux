@@ -1,4 +1,4 @@
-name: "Teste Nilton CI"
+name: "CI"
 
 on:
   push:
@@ -9,24 +9,11 @@ env:
 
 
 jobs:
-  deploy-psti-homol:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Set Slack Name in Env
-      run: echo "slack_name=Deploy-PSTI-HOMOL" >> $GITHUB_ENV
-    - name: Get Message
-      run: echo "deploy_app=$(echo $commit_message|grep deploy:|cut -d':' -f2)" >> $GITHUB_ENV
-
-    - name: Check file existence
-      id: check_files
-      uses: andstor/file-existence-action@v1
-      with:
-        files: "${{ env.deploy_app }}"
-
-
-    - name: 'Deploy to App Engine'
-      if: steps.check_files.outputs.files_exists == 'false'
-      run: 'echo "O arquivo ${{ env.deploy_app }} nao existe ..."'
-      #run: 'gcloud app deploy ${{ env.deploy_app }} --quiet --no-promote --version NILTON'
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run: cargo build --release --all-features
