@@ -23,10 +23,10 @@ target/release/cli-linux -V
 ## Run UPX on Rust binary
 
 ```bash
-curl -LO https://github.com/upx/upx/releases/download/v3.95/upx-3.95-amd64_linux.tar.xz
-tar -xf upx-3.95-amd64_linux.tar.xz
-cp upx-3.95-amd64_linux/upx /usr/local/bin/
-rm -rf upx-3.95-*
+curl -LO https://github.com/upx/upx/releases/download/v3.96/upx-3.96-amd64_linux.tar.xz
+tar -xf upx-3.96-amd64_linux.tar.xz
+cp upx-3.96-amd64_linux/upx /usr/local/bin/
+rm -rf upx-3.96-*
 ls -sh target/release/cli-linux
 upx target/release/cli-linux
 ls -sh target/release/cli-linux
